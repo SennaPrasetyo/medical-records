@@ -1,0 +1,278 @@
+/*
+ * Fill the main column height so the table scrolls internally and pagination
+ * stays pinned to the bottom of the view (matches reference admin tables).
+ * 48px ≈ app-main vertical padding (24px × 2).
+ */
+.home-page {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 48px);
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.home-page__toolbar {
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+/* Table body scrolls; pagination stays at the bottom of this block */
+.employees-table-block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.home-page-title {
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+  color: var(--text-h);
+}
+
+.home-page-lead {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+/* Scroll strip — vertical + horizontal scroll inside flex slot */
+.employees-table-scroll {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.employees-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  background: transparent;
+  box-shadow: none !important;
+}
+
+/* Header — soft gray bar, no vertical rules */
+.employees-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f7f9fc !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  white-space: nowrap;
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Body — white rows, horizontal dividers only */
+.employees-table tbody td {
+  padding: 16px;
+  vertical-align: middle;
+  background: #fff !important;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+
+.employees-table tbody tr:hover td {
+  background: #f8fafc !important;
+}
+
+/* Status — pill + dot */
+.employees-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.employees-status-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.employees-status-badge--fit {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.employees-status-badge--fit .employees-status-badge__dot {
+  background: #059669;
+}
+
+.employees-status-badge--follow_up {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.employees-status-badge--follow_up .employees-status-badge__dot {
+  background: #d97706;
+}
+
+.employees-status-badge--unfit {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.employees-status-badge--unfit .employees-status-badge__dot {
+  background: #dc2626;
+}
+
+.employees-table-col--checkbox {
+  width: 52px;
+  text-align: center;
+}
+
+/* Checkbox — visible tick on white (outline + dark stroke) */
+.employees-table-checkbox [data-part="control"] {
+  border-radius: 4px !important;
+  border-color: #cbd5e1 !important;
+  background-color: #ffffff !important;
+  cursor: pointer;
+}
+
+.employees-table-checkbox [data-part="control"][data-state="checked"],
+.employees-table-checkbox [data-part="control"][data-state="indeterminate"] {
+  color: #0f172a !important;
+  border-color: #475569 !important;
+  background-color: #ffffff !important;
+}
+
+.employees-table-checkbox [data-part="control"] svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  stroke-width: 2.75px !important;
+  opacity: 1 !important;
+}
+
+/* Single focus ring (avoids thick “double box” on header checkbox) */
+.employees-table-checkbox [data-part="control"][data-focus-visible] {
+  outline: none !important;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 3px #64748b !important;
+}
+
+.employees-table-col--nik {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.employees-table-col--date {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.employees-table-col--status {
+  white-space: nowrap;
+}
+
+.employees-table-col--action {
+  width: 72px;
+  text-align: center;
+}
+
+/* Kebab — minimal */
+.employees-table-action-trigger {
+  border-radius: 6px !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  color: #64748b !important;
+}
+
+.employees-table-action-trigger:hover {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+/*
+ * Action menu — portaled to document; force same surface as table rows (dark mode safe).
+ * Recipe uses --menu-bg / bg.panel which follows global theme unless overridden here.
+ */
+.employees-table-action-menu {
+  --menu-bg: #ffffff !important;
+  min-width: 220px;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow:
+    0 18px 48px rgba(15, 23, 42, 0.14),
+    0 8px 20px rgba(15, 23, 42, 0.08),
+    0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid #e2e8f0 !important;
+  padding-block: 4px !important;
+  overflow: hidden;
+}
+
+.employees-table-action-menu-sep {
+  background: #e2e8f0 !important;
+  opacity: 1 !important;
+}
+
+.employees-table-action-menu [role="menuitem"],
+.employees-table-action-menu [data-part="item"] {
+  color: #0f172a !important;
+}
+
+.employees-table-action-menu [role="menuitem"][data-highlighted],
+.employees-table-action-menu [role="menuitem"][data-focus-visible],
+.employees-table-action-menu [role="menuitem"][data-state="highlighted"],
+.employees-table-action-menu [data-part="item"][data-highlighted],
+.employees-table-action-menu [data-part="item"][data-focus-visible],
+.employees-table-action-menu [data-part="item"][data-state="highlighted"] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.employees-table-menu-item-inner {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+}
+
+.employees-table-menu-item-inner svg {
+  flex-shrink: 0;
+  color: #475569 !important;
+  stroke: #475569 !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 900px) {
+  .employees-table {
+    min-width: 720px;
+  }
+}
